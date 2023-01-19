@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import { Content } from './Content'
+import Content from './Content'
 
-function App() {
+export default function App() {
   const [count, setCount] = useState(0)
 
   return (
@@ -12,5 +12,3 @@ function App() {
     </div>
   )
 }
-
-export default App
