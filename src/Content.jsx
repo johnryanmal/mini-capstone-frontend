@@ -1,4 +1,4 @@
-
+import { Routes, Route } from 'react-router-dom'
 
 function ProductsIndex(props) {
   return (
@@ -18,7 +18,9 @@ export default function Content() {
 
   return (
     <div>
-      <ProductsIndex products={products}/>
+      <Routes>
+        <Route path='/' element={<ProductsIndex products={products}/>}></Route>
+      </Routes>
     </div>
   );
 }
