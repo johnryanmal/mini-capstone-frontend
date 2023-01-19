@@ -5,6 +5,43 @@ import { Login } from './Login'
 import { Signup } from './Signup'
 import { Logout } from './Logout'
 
+function ProductsForm() {
+  return (
+    <div>
+      <p>Products Form</p>
+    </div>
+  )
+}
+
+function ProductsNew() {
+  const params = useParams()
+  const [product, setProduct] = useState({})
+
+  const getProduct = () => {
+    axios.get(`http://localhost:3000/products/${params.id}.json`)
+    .then((res) => {
+      const data = res.data
+      //console.log('show', data)
+      setProduct(data)
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+  }
+
+  useEffect(getProduct, [])
+
+  return (
+    <div>
+      <h1>Products New</h1>
+      <ProductsForm/>
+      <Link to="/">
+        <button>Back</button>
+      </Link>
+    </div>
+  )
+}
+
 function ProductsShow() {
   const params = useParams()
   const [product, setProduct] = useState({})
@@ -75,17 +112,19 @@ function Header() {
   return (
     <div>
       <h1>Header</h1>
+      <Link to='/'><button>Home</button></Link>
       {hasjwt && (
-        <div>
+        <span>
           <Logout/>
-        </div>
+        </span>
       ) || (
-        <div>
-          <Link to='/'><button>Home</button></Link>
+        <span>
           <Link to='/login'><button>Login</button></Link>
           <Link to='/signup'><button>Signup</button></Link>
-        </div>
+        </span>
       )}
+      <hr/>
+      <Link to='/new'><button>Create Product</button></Link>
     </div>
   )
 }
@@ -101,6 +140,7 @@ export default function Content() {
         <Route path='/signup' element={<Signup/>}></Route>
         <Route path='/' element={<ProductsIndex/>}></Route>
         <Route path='/show/:id' element={<ProductsShow/>}></Route>
+        <Route path='/new' element={<ProductsNew/>}></Route>
       </Routes>
     </div>
   );
