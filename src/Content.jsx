@@ -1,6 +1,9 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useParams } from 'react-router-dom'
+import { Login } from './Login'
+import { Signup } from './Signup'
+import { Logout } from './Logout'
 
 function ProductsShow() {
   const params = useParams()
@@ -67,11 +70,35 @@ function ProductsIndex() {
   )
 }
 
-
-export default function Content() {
+function Header() {
+  const hasjwt = (localStorage.getItem("jwt") !== null) ? true : false
   return (
     <div>
+      <h1>Header</h1>
+      {hasjwt && (
+        <div>
+          <Logout/>
+        </div>
+      ) || (
+        <div>
+          <Link to='/'><button>Home</button></Link>
+          <Link to='/login'><button>Login</button></Link>
+          <Link to='/signup'><button>Signup</button></Link>
+        </div>
+      )}
+    </div>
+  )
+}
+
+
+export default function Content() {
+
+  return (
+    <div>
+      <Header/>
       <Routes>
+        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/signup' element={<Signup/>}></Route>
         <Route path='/' element={<ProductsIndex/>}></Route>
         <Route path='/show/:id' element={<ProductsShow/>}></Route>
       </Routes>
