@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 
-function ProductsIndex(props) {
+function ProductsIndex() {
   const [products, setProducts] = useState([])
 
   const getProducts = () => {
@@ -22,9 +22,12 @@ function ProductsIndex(props) {
   return (
     <div>
       <h1>Products Index</h1>
-      {products.map(((product) => (
+      {products.map((product => (
         <div key={product.id}>
           <p>{product.name}</p>
+          <Link to={`/show/${product.id}`}>
+            <button>Select</button>
+          </Link>
         </div>
       )))}
     </div>
