@@ -1,11 +1,30 @@
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 function ProductsIndex(props) {
+  const [products, setProducts] = useState([])
+
+  const getProducts = () => {
+    axios.get(`http://localhost:3000/products.json`)
+    .then((res) => {
+      const data = res.data
+      //console.log(data)
+      setProducts(data)
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+  }
+
+  useEffect(getProducts, [])
+
   return (
     <div>
-      {props.products?.map(((product, index) => (
-        <div key={index}>
-          <p>{product}</p>
+      <h1>Products Index</h1>
+      {products.map(((product) => (
+        <div key={product.id}>
+          <p>{product.name}</p>
         </div>
       )))}
     </div>
@@ -14,12 +33,10 @@ function ProductsIndex(props) {
 
 
 export default function Content() {
-  const products = [1,2,3]
-
   return (
     <div>
       <Routes>
-        <Route path='/' element={<ProductsIndex products={products}/>}></Route>
+        <Route path='/' element={<ProductsIndex/>}></Route>
       </Routes>
     </div>
   );
