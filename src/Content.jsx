@@ -129,12 +129,30 @@ function ProductsIndex() {
 
 function Header() {
   const hasjwt = (localStorage.getItem("jwt") !== null) ? true : false
+  const [user, setUser] = useState({})
+
+  const getUser = () => {
+    if (hasjwt) {
+      axios.get(`http://localhost:3000/users/current`)
+      .then((res) => {
+        const data = res.data
+        console.log('user', data)
+        setUser(data)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+    }
+  }
+
+  useEffect(getUser, [])
+
   return (
     <div>
       <h1>Header</h1>
-      <Link to='/'><button>Home</button></Link>
       {hasjwt && (
         <React.Fragment>
+          <p>Logged in as {user.name}</p>
           <Logout/>
         </React.Fragment>
       ) || (
@@ -144,6 +162,7 @@ function Header() {
         </React.Fragment>
       )}
       <hr/>
+      <Link to='/'><button>Home</button></Link>
       <Link to='/new'><button>Create Product</button></Link>
     </div>
   )
