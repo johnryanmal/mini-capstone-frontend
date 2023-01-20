@@ -75,8 +75,21 @@ function ProductsShow() {
   )
 }
 
+function SearchBar(props) {
+  const [value, setValue] = useState('')
+
+  const handleChange = (event) => {
+    let data = event.target.value
+    setValue(data)
+    props.onChange(data)
+  }
+
+  return <input type="text" value={value} onChange={handleChange} />
+}
+
 function ProductsIndex() {
   const [products, setProducts] = useState([])
+  const [query, setQuery] = useState('')
 
   const getProducts = () => {
     axios.get(`http://localhost:3000/products.json`)
@@ -95,7 +108,14 @@ function ProductsIndex() {
   return (
     <div>
       <h1>Products Index</h1>
-      {products.map((product => (
+      <SearchBar onChange={setQuery}/>
+      {products.filter((product) => {
+        if (query === '') {
+          return true
+        } else {
+          return product.name.toLowerCase().includes(query.toLowerCase())
+        }
+      }).map((product => (
         <div key={product.id}>
           <p>{product.name}</p>
           <Link to={`/show/${product.id}`}>
