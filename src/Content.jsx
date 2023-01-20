@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Routes, Route, Link, useParams } from 'react-router-dom'
 import { Login } from './Login'
 import { Signup } from './Signup'
@@ -114,14 +114,14 @@ function Header() {
       <h1>Header</h1>
       <Link to='/'><button>Home</button></Link>
       {hasjwt && (
-        <span>
+        <React.Fragment>
           <Logout/>
-        </span>
+        </React.Fragment>
       ) || (
-        <span>
+        <React.Fragment>
           <Link to='/login'><button>Login</button></Link>
           <Link to='/signup'><button>Signup</button></Link>
-        </span>
+        </React.Fragment>
       )}
       <hr/>
       <Link to='/new'><button>Create Product</button></Link>
